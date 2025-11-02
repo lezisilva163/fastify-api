@@ -1,0 +1,10 @@
+services:                           # Define os serviços (containers) do projeto
+  postgres:                         # Nome do serviço
+    image: bitnami/postgresql:latest # Imagem Docker a ser usada (PostgreSQL da Bitnami)
+    container_name: postgres        # Nome fixo do container (facilita referência)
+    environment:                    # Variáveis de ambiente
+      POSTGRES_USER: postgres       # Usuário padrão do banco
+      POSTGRES_PASSWORD: postgres   # Senha do usuário
+      POSTGRES_DB: postgres         # Nome do banco de dados inicial
+    ports:                          # Mapeamento de portas
+      - "5432:5432"                 # host:container - expõe PostgreSQL na porta 5432
