@@ -28,44 +28,51 @@ Uma API REST moderna e type-safe construída com Fastify, Prisma ORM, TypeScript
 
 ## 📋 Pré-requisitos
 
-- Node.js 18+ 
+- Node.js 18+
 - Docker e Docker Compose
 - npm ou yarn
 
 ## 🔧 Instalação
 
 1. Clone o repositório:
+
 ```bash
 git clone <url-do-repositorio>
-cd curso-1
+cd fastify-api
 ```
 
 2. Instale as dependências:
+
 ```bash
 npm install
 ```
 
 3. Configure as variáveis de ambiente:
+
 ```bash
 cp .env.example .env
 ```
 
 Edite o arquivo `.env` com suas configurações:
+
 ```env
 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres"
 ```
 
 4. Inicie o banco de dados com Docker:
+
 ```bash
 docker compose up -d
 ```
 
 5. Execute as migrations do Prisma:
+
 ```bash
 npm run prisma:migrate
 ```
 
 6. Inicie o servidor de desenvolvimento:
+
 ```bash
 npm run dev
 ```
@@ -76,7 +83,7 @@ A documentação interativa estará em `http://localhost:3000/docs`
 ## 📁 Estrutura do Projeto
 
 ```
-curso-1/
+fastify-api/
 ├── .github/
 │   └── copilot-instructions.md    # Instruções para o GitHub Copilot
 ├── prisma/
@@ -106,12 +113,14 @@ curso-1/
 ## 🎯 Scripts Disponíveis
 
 ### Desenvolvimento
+
 ```bash
 npm run dev              # Inicia servidor com hot reload
 npm run build            # Compila e inicia servidor
 ```
 
 ### Banco de Dados
+
 ```bash
 npm run prisma:migrate   # Cria migration e regenera client
 npm run prisma:studio    # Abre interface visual do BD
@@ -120,6 +129,7 @@ docker compose down      # Para PostgreSQL
 ```
 
 ### Testes
+
 ```bash
 npm test                 # Executa todos os testes
 npm run test:watch       # Modo watch (re-executa ao salvar)
@@ -147,6 +157,7 @@ O projeto utiliza Vitest para testes automatizados. Os testes cobrem:
 - ✅ Múltiplas operações
 
 Exemplo de teste:
+
 ```typescript
 it("deve criar um usuário com dados válidos", async () => {
   const response = await app.inject({
@@ -155,10 +166,10 @@ it("deve criar um usuário com dados válidos", async () => {
     payload: {
       name: "João Silva",
       email: "joao@email.com",
-      password: "senha123"
-    }
+      password: "senha123",
+    },
   });
-  
+
   expect(response.statusCode).toBe(201);
   expect(response.json()).toHaveProperty("user");
 });
@@ -166,8 +177,8 @@ it("deve criar um usuário com dados válidos", async () => {
 
 ## 🔐 Variáveis de Ambiente
 
-| Variável | Descrição | Exemplo |
-|----------|-----------|---------|
+| Variável       | Descrição                    | Exemplo                                    |
+| -------------- | ---------------------------- | ------------------------------------------ |
 | `DATABASE_URL` | URL de conexão do PostgreSQL | `postgresql://user:pass@localhost:5432/db` |
 
 ## 📝 Adicionando Novos Recursos
