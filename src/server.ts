@@ -1,6 +1,7 @@
 import fastifyCors from "@fastify/cors";
+import fastifyJwt from "@fastify/jwt";
 import fastifySwagger from "@fastify/swagger";
-import fastify from "fastify";
+import fastify, { FastifyReply, FastifyRequest } from "fastify";
 import {
   hasZodFastifySchemaValidationErrors,
   isResponseSerializationError,
@@ -49,12 +50,41 @@ app.setErrorHandler((err, req, reply) => {
 
 app.register(fastifyCors, { origin: "*" });
 
+// Configuração do JWT
+app.register(fastifyJwt, {
+  secret: process.env.JWT_SECRET || "sua_chave_secreta_aqui_mude_em_producao",
+});
+
+// Decorator para autenticação
+app.decorate(
+  "authenticate",
+  async function (request: FastifyRequest, reply: FastifyReply) {
+    try {
+      await request.jwtVerify();
+    } catch (err) {
+      reply.status(401).send({
+        error: "Unauthorized",
+        message: "Token inválido ou expirado",
+      });
+    }
+  }
+);
+
 app.register(fastifySwagger, {
   openapi: {
     info: {
       title: "API Fastify",
       description: "API exemplo utilizando Fastify com TypeScript",
       version: "1.0.0",
+    },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
     },
   },
   transform: jsonSchemaTransform,

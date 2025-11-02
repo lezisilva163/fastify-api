@@ -41,3 +41,26 @@ export const createUserInputSchema = {
 };
 
 export type createUserInputType = z.infer<typeof createUserInputSchema.body>;
+
+// Schema para listar usuários (rota protegida)
+export const listUsersSchema = {
+  response: {
+    200: z.object({
+      users: z.array(
+        z.object({
+          id: z.string(),
+          name: z.string(),
+          email: z.string(),
+          createdAt: z.string(),
+        })
+      ),
+    }),
+    401: z.object({
+      error: z.string(),
+      message: z.string().optional(),
+    }),
+    500: z.object({
+      error: z.string(),
+    }),
+  },
+};
